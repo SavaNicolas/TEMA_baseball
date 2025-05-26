@@ -9,13 +9,58 @@ class Controller:
         self._model = model
 
     def handleCreaGrafo(self, e):
-        pass
+        year=self._view._ddAnno.value
+        if year is None:
+            self._view._txt_result.controls.clear()
+            self._view._txt_result.controls.append(ft.Text(f"seleziona anno"))
+            self._view.update_page()
+            return
+
+        self._model.buildGraph(int(year))
+        nNodes,nEdges = self._model.getGraphDetails()
+
+        self._view._txt_result.controls.clear()
+        self._view._txt_result.controls.append(ft.Text(f"grafo correttamente creato"))
+        self._view._txt_result.controls.append(ft.Text(f"num nodi: {nNodes}; num edges: {nEdges}"))
+        self._view.update_page()
+
 
     def handleDettagli(self, e):
-        pass
+        if self._squadraScelta is None:
+            self._view._txt_result.controls.clear()
+            self._view._txt_result.controls.append(
+                ft.Text(value="Per favore selezionare un team.", color="red"))
+            self._view.update_page()
+            return
+
+        #[(VO,PO),(V1,P1)
+        viciniSorted= self._model.getNeighborsSorted(self._squadraScelta)
+        self._view._txt_result.controls.clear()
+        self._view._txt_result.controls.append(
+            ft.Text(f"Il vicinato conta {len(viciniSorted)} squadre.")
+        )
+        for v in viciniSorted:
+            self._view._txt_result.controls.append(
+                ft.Text(f"{v[0]} -- peso: {v[1]}")
+            )
+        self._view.update_page()
 
     def handlePercorso(self, e):
-        pass
+        if self._squadraScelta is None:
+            self._view._txt_result.controls.clear()
+            self._view._txt_result.controls.append(ft.Text(value="Per favore seleziona un team.", color="red"))
+            self._view.update_page()
+            return
+        path,score = self._model.getBestPathV2(self._squadraScelta)
+        self._view._txt_result.controls.clear()
+        self._view._txt_result.controls.append(ft.Text(f"cammino che parte da {self._squadraScelta} -- peso: {score}"))
+        self._view.update_page()
+        for v in path:
+            self._view._txt_result.controls.append(ft.Text(f"{v}"))
+        self._view.update_page()
+
+
+
 
     def fillDDanno(self):
         listaAnni= self._model.getYears()
