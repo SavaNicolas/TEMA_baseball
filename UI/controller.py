@@ -69,6 +69,7 @@ class Controller:
             self._view._ddAnno.options.append(ft.dropdown.Option(year))
 
     def changeAnno(self,e):
+        #on_change=self._controller.changeAnno MESSO IN VIEW
         anno= self._view._ddAnno.value
         squadre=self._model.getTeamsOfYear(anno)
         self._view._txtOutSquadre.controls.clear()
