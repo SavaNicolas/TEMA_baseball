@@ -71,7 +71,7 @@ class Controller:
     def changeAnno(self,e):
         #on_change=self._controller.changeAnno MESSO IN VIEW
         anno= self._view._ddAnno.value
-        squadre=self._model.getTeamsOfYear(anno)
+        squadre=self._model.getTeamsOfYear(anno)#fai i controlli!! come a lab 11
         self._view._txtOutSquadre.controls.clear()
         self._view._txtOutSquadre.controls.append(ft.Text(f"Ho trovato {len(squadre)} squadre che hanno giocato nell'anno {anno}:"))
         for squadra in squadre:
