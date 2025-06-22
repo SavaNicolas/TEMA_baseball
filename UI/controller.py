@@ -63,6 +63,7 @@ class Controller:
 
 
     def fillDDanno(self):
+        #lo chiamo in view sotto al dd
         listaAnni= self._model.getYears()
         for year in listaAnni:
             self._view._ddAnno.options.append(ft.dropdown.Option(year))
