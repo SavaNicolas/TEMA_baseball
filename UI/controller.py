@@ -69,10 +69,28 @@ class Controller:
             self._view._ddAnno.options.append(ft.dropdown.Option(year))
 
     def changeAnno(self,e):
-        #on_change=self._controller.changeAnno MESSO IN VIEW
-        anno= self._view._ddAnno.value
-        squadre=self._model.getTeamsOfYear(anno)#fai i controlli!! come a lab 11
+        #on_change=self._controller.changeAnno messo in view
         self._view._txtOutSquadre.controls.clear()
+        # prendo anno dall'input
+        anno = self._view._ddAnno.value
+        # controlli
+        if anno is None:
+            self._view._txtOutSquadre.controls.clear()
+            self._view._txtOutSquadre.controls.append(ft.Text("seleziona un valore"))
+            self._view.update_page()
+            return
+
+        # converto in intero
+        try:
+            anno = int(anno)
+        except ValueError:
+            self._view._txtOutSquadre.controls.clear()
+            self._view._txtOutSquadre.controls.append(ft.Text("anno non valida"))
+            self._view.update_page()
+            return
+        
+        squadre=self._model.getTeamsOfYear(anno)
+        
         self._view._txtOutSquadre.controls.append(ft.Text(f"Ho trovato {len(squadre)} squadre che hanno giocato nell'anno {anno}:"))
         for squadra in squadre:
             self._view._txtOutSquadre.controls.append(ft.Text(f"{squadra}"))
